@@ -1,0 +1,1 @@
+INSERT INTO test_table(name) VALUES ('test1'), ('test2'), ('test3');
