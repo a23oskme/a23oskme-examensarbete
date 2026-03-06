@@ -4,6 +4,8 @@ import "dotenv/config";
 import express from "express";
 // Import node-postgres (pg) which alows Node to communicate with postgresql
 import pg from "pg";
+// Import database connection from db.js
+import pool from "./db.js";
 
 // Use Pool-class from pb-libary (Pool handles reuse of DB-connections)
 const { Pool } = pg;
@@ -16,10 +18,10 @@ const port = process.env.PORT;
 // Serve frontend from server/public
 app.use(express.static("public"));
 
-// Skapa en DB-pool (återanvänds mellan requests)
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
+// Changed to importing database connection instead, leaving this commented here for now
+// const pool = new Pool({
+//   connectionString: process.env.DATABASE_URL,
+// });
 
 // Used for debugging, leaving it here for now
 //console.log("DATABASE_URL =", process.env.DATABASE_URL);
