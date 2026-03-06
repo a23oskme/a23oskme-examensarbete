@@ -24,6 +24,22 @@ const pool = new Pool({
 // Used for debugging, leaving it here for now
 //console.log("DATABASE_URL =", process.env.DATABASE_URL);
 
+// First test REST-endpoint
+// This function will run When someone calls GET /api/test-table
+app.get("/api/test-table", async (req, res) => {
+  try {
+    // SQL query against database through pool
+    const { rows } = await pool.query(
+      "SELECT id, name FROM test_table ORDER BY id"
+    );
+    // Return results as JSON to client
+    res.json(rows);
+  } catch (err) {
+    console.error("DB error:", err);
+    res.status(500).json({ error: "Database query failed" });
+  }
+});
+
 // Starts the server and listen to the port
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

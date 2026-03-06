@@ -36,3 +36,9 @@ Run in /server terminal
 ```
 npm start
 ```
+
+# Test database connection through the terminal
+
+```
+curl http://localhost:3000/api/test-table
+```
