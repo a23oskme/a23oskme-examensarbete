@@ -28,3 +28,11 @@ Exit psql:
 ```
 \q
 ```
+
+
+## To start server
+
+Run in /server terminal
+```
+npm start
+```
