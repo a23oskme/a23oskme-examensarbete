@@ -6,6 +6,8 @@ import express from "express";
 import pg from "pg";
 // Import database connection from db.js
 import pool from "./db.js";
+// Import GraphQL
+import testTableGraphqlHandler from "./graphql/testTableGraph.js";
 
 // Use Pool-class from pb-libary (Pool handles reuse of DB-connections)
 const { Pool } = pg;
@@ -41,6 +43,8 @@ app.get("/api/test-table", async (req, res) => {
     res.status(500).json({ error: "Database query failed" });
   }
 });
+
+app.all("/graphql", testTableGraphqlHandler);
 
 // Starts the server and listen to the port
 app.listen(port, () => {

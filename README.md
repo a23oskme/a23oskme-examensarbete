@@ -42,3 +42,23 @@ npm start
 ```
 curl http://localhost:3000/api/test-table
 ```
+
+## Test GraphQL-endpoint (in terminal)
+
+```
+curl -X POST http://localhost:3000/graphql \
+  -H "Content-Type: application/json" \
+  -d '{"query":"{ testTable { id name } }"}'
+```
+# Example on how to test a specific row: 
+
+´´´
+curl -X POST http://localhost:3000/graphql \
+  -H "Content-Type: application/json" \
+  -d '{"query":"{ testRow(id: \"1\") { id name } }"}'
+´´´
+
+The same example as an URI: 
+```
+http://localhost:3000/graphql?query={testTable{id name}}
+```
