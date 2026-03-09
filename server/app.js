@@ -4,9 +4,9 @@ import "dotenv/config";
 import express from "express";
 // Import node-postgres (pg) which alows Node to communicate with postgresql
 import pg from "pg";
-// Import database connection from db.js
-import pool from "./db.js";
-// Import GraphQL
+// Import REST implementation
+import testTableRestRouter from "./rest/testTableRest.js";
+// Import GraphQL implementation
 import testTableGraphqlHandler from "./graphql/testTableGraph.js";
 
 // Use Pool-class from pb-libary (Pool handles reuse of DB-connections)
@@ -19,31 +19,9 @@ const port = process.env.PORT;
 
 // Serve frontend from server/public
 app.use(express.static("public"));
-
-// Changed to importing database connection instead, leaving this commented here for now
-// const pool = new Pool({
-//   connectionString: process.env.DATABASE_URL,
-// });
-
-// Used for debugging, leaving it here for now
-//console.log("DATABASE_URL =", process.env.DATABASE_URL);
-
-// First test REST-endpoint
-// This function will run When someone calls GET /api/test-table
-app.get("/api/test-table", async (req, res) => {
-  try {
-    // SQL query against database through pool
-    const { rows } = await pool.query(
-      "SELECT id, name FROM test_table ORDER BY id"
-    );
-    // Return results as JSON to client
-    res.json(rows);
-  } catch (err) {
-    console.error("DB error:", err);
-    res.status(500).json({ error: "Database query failed" });
-  }
-});
-
+// use REST router
+app.use("/rest", testTableRestRouter);
+// use GraphQL handler
 app.all("/graphql", testTableGraphqlHandler);
 
 // Starts the server and listen to the port
