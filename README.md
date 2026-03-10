@@ -36,15 +36,14 @@ Run in /server terminal
 ```
 npm start
 ```
+## Test APIs in terminal
 
-# Test database connection through the terminal
-
+Test REST API-endpoint
 ```
-curl http://localhost:3000/api/test-table
+curl http://localhost:3000/rest/test-table
 ```
 
-## Test GraphQL-endpoint (in terminal)
-
+Test GraphQL-endpoint
 ```
 curl -X POST http://localhost:3000/graphql \
   -H "Content-Type: application/json" \
