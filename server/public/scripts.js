@@ -41,5 +41,38 @@ async function fetchAll() {
     showError(error.message);
   }
 }
+
+// Function that fetches one row based on id
+async function fetchOne() {
+  // Get API-model
+  const apiType = apiTypeSelect.value;
+  // Get inserted id
+  const id = rowIdInput.value;
+
+  // Show error if the user did not enter an id
+  if (!id) {
+    showError("Enter ID.");
+    return;
+  }
+
+  try {
+    let responseData;
+
+    // if the user chose REST
+    if (apiType === "rest") {
+      // Fetch from REST-endpoint for a specific row 
+      const response = await fetch(`/rest/test-table/${id}`);
+      if (!response.ok) {
+        throw new Error(`REST-fetch failed: ${response.status}`);
+      }
+      responseData = await response.json();
+    } 
+
+    showResult(responseData);
+  } catch (error) {
+    showError(error.message);
+  }
+}
+
 getAllBtn.addEventListener("click", fetchAll);
 getOneBtn.addEventListener("click", fetchOne);
