@@ -35,6 +35,33 @@ async function fetchAll() {
         responseData = await response.json();
       }
     } 
+    else {
+      // Else if GraphQL, send a POST request to /graphql
+      const response = await fetch("/graphql", {
+        method: "POST",
+        // The requests content is JSON
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // Sending the GraphQL-query in the request body
+        body: JSON.stringify({
+          query: `
+            query {
+              testTable {
+                id
+                name
+              }
+            }
+          `,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error(`GraphQL-fetch failed: ${response.status}`);
+      } else {
+        const result = await response.json();
+        responseData = result.data;
+      }
+    }
 
     showResult(responseData);
   } catch (error) {
