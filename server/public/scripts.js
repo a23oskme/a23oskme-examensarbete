@@ -94,6 +94,34 @@ async function fetchOne() {
       }
       responseData = await response.json();
     } 
+    else {
+      const response = await fetch("/graphql", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          query: `
+              query GetTestRow($id: ID!) {
+              testRow(id: $id) {
+                  id
+                  name
+              }
+              }
+          `,
+          variables: {
+            id: id,
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`GraphQL-fetch failed: ${response.status}`);
+      } else {
+        const result = await response.json();
+        responseData = result.data;
+      }
+    }
 
     showResult(responseData);
   } catch (error) {
