@@ -9,11 +9,24 @@
       margin-bottom: 20px;
     }
 
+    h2 {
+      margin-bottom: 10px;
+    }
+
+    section {
+      margin-top: 50px;
+    }
+
     .menu {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
       margin-bottom: 20px;
+    }
+
+    nav .menu {
+      flex-direction: column;
+      gap: 0;
     }
 
     input, select, button {

@@ -1,32 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>REST vs GraphQL</title>
-  <link href="style.css" rel="stylesheet">
-</head>
-<body>
-  <h1>Get data with REST or GraphQL</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>REST vs GraphQL</title>
+    <link href="style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <h1>Get data with REST or GraphQL</h1>
 
-  <div class="menu">
-    <label for="apiType">Choose API:</label>
-    <select id="apiType">
-      <option value="rest">REST</option>
-      <option value="graphql">GraphQL</option>
-    </select>
+    <nav>
+      <div class="menu">
+        <h2>Navigate to API-model</h2>
+        <div class="nav-buttons">
+          <a href="public_rest/rest_ui.html"><button>REST</button></a>
+          <a href="public_graphql/graphql_ui.html"><button>GraphQL</button></a>
+        </div>
+      </div>
+    </nav>
 
-    <button id="getAllBtn">Fetch everything</button>
-  </div>
+    <section>
+      <h2>Test fetch</h2>
 
-  <div class="menu">
-    <input type="number" id="rowId" placeholder="Ange ID" />
-    <button id="getOneBtn">Fetch one row</button>
-  </div>
+      <label for="apiType">Choose API:</label>
+      <div class="menu">
+        <select id="apiType">
+          <option value="rest">REST</option>
+          <option value="graphql">GraphQL</option>
+        </select>
 
-  <h2>Results</h2>
-  <pre id="output">No data yet.</pre>
+        <button id="getAllBtn">Fetch everything</button>
+      </div>
 
-  <script src="scripts.js"></script>
-</body>
+      <div class="menu">
+        <input type="number" id="rowId" placeholder="Ange ID" />
+        <button id="getOneBtn">Fetch one row</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Results</h2>
+      <pre id="output">No data yet.</pre>
+    </section>
+
+    <script src="scripts.js"></script>
+  </body>
 </html>
