@@ -15,7 +15,7 @@ const port = process.env.PORT;
 // Serve frontend from server/public
 app.use(express.static("public"));
 // use REST router
-app.use("/rest", testTableRestRouter);
+app.use("/rest", wikiRestRouter);
 // use GraphQL handler
 app.all("/graphql", testTableGraphqlHandler);
 
