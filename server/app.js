@@ -2,15 +2,10 @@
 import "dotenv/config";
 // Import express (webbserver framework)
 import express from "express";
-// Import node-postgres (pg) which alows Node to communicate with postgresql
-import pg from "pg";
 // Import REST implementation
-import testTableRestRouter from "./rest/testTableRest.js";
+import wikiRestRouter from "./rest/wikiRest.js";
 // Import GraphQL implementation
 import testTableGraphqlHandler from "./graphql/testTableGraph.js";
-
-// Use Pool-class from pb-libary (Pool handles reuse of DB-connections)
-const { Pool } = pg;
 
 // Create express app
 const app = express();
