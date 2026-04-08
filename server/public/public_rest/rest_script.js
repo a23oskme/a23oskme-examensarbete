@@ -38,7 +38,15 @@ async function fetchPageById(pageId) {
   }
 }
 
+// GET ONE CATEGORY
+async function fetchCategoryById(categoryId) {
   try {
+    const start = performance.now();
+    const data = await fetchRestData(`/rest/categories/${categoryId}`);
+    const end = performance.now();
+
+    showTiming(end - start);
+    showResult(data);
   } catch (error) {
     showError(error.message);
   }
@@ -66,5 +74,16 @@ document.getElementById("getPageBtn").addEventListener("click", () => {
   }
 
   fetchPageById(pageId);
+});
+
+document.getElementById("getCategoryBtn").addEventListener("click", () => {
+  const categoryId = document.getElementById("categoryIdInput").value.trim();
+
+  if (!categoryId) {
+    showError("Please enter a category id.");
+    return;
+  }
+
+  fetchCategoryById(categoryId);
 });
 
