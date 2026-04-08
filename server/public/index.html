@@ -8,7 +8,6 @@
   </head>
   <body>
     <h1>Get data with REST or GraphQL</h1>
-
     <nav>
       <div class="menu">
         <h2>Navigate to API-model</h2>
@@ -18,31 +17,5 @@
         </div>
       </div>
     </nav>
-
-    <section>
-      <h2>Test fetch</h2>
-
-      <label for="apiType">Choose API:</label>
-      <div class="menu">
-        <select id="apiType">
-          <option value="rest">REST</option>
-          <option value="graphql">GraphQL</option>
-        </select>
-
-        <button id="getAllBtn">Fetch everything</button>
-      </div>
-
-      <div class="menu">
-        <input type="number" id="rowId" placeholder="Ange ID" />
-        <button id="getOneBtn">Fetch one row</button>
-      </div>
-    </section>
-
-    <section>
-      <h2>Results</h2>
-      <pre id="output">No data yet.</pre>
-    </section>
-
-    <script src="scripts.js"></script>
   </body>
 </html>
