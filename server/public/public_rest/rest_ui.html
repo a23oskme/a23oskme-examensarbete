@@ -9,18 +9,49 @@
   <body>
     <h1>REST</h1>
 
-    <div class="menu">
-      <button id="getAllBtn">Fetch everything</button>
+    <div class="levelContainer" style="border-top: 1px solid black;">
+      <h2>Level 1</h2>
+      <section>
+        <h3>Get page by ID</h2>
+      </section>
+  
+      <section>
+        <h3>Get category by ID</h2>
+      </section>
     </div>
 
-    <div class="menu">
-      <input type="number" id="rowId" placeholder="Ange ID" />
-      <button id="getOneBtn">Fetch one row</button>
+    <div class="levelContainer">
+      <h2>Level 2</h2>
+      <section>
+        <h3>Get categories for a page</h3>
+        <p>page->catgories</p>
+      </section>
+  
+      <section>
+        <h3>Get pages for a category</h3>
+        <p>category->pages</p>
+      </section>
     </div>
 
-    <h2>Results</h2>
-    <pre id="output">No data yet.</pre>
-    
+    <div class="levelContainer">
+      <h2>Level 3</h2>
+      <section>
+        <h3>Deep page traversal</h3>
+        <p>page->categories->pages->categories</p>
+        <ol>
+          <li>Get a page (ID)</li>
+          <li>Get its categories</li>
+          <li>Get all pages for each category</li>
+          <li>For each of those pages, get their categories</li>
+        </ol>
+      </section>
+    </div>
+
+    <h2>Timing</h2>
+    <p id="timing">Request time: -</p>
+
+    <h2>Result</h2>
+    <pre id="output">No result yet.</pre>
   </body>
   <script src="rest_script.js"></script>
 </html>

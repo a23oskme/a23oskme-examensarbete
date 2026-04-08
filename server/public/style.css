@@ -1,42 +1,37 @@
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 20px;
-    }
+body {
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+}
 
-    h1 {
-      margin-bottom: 20px;
-    }
+.levelContainer {
+  border-bottom: 1px solid black;
+  padding-bottom: 10px;
+}
 
-    h2 {
-      margin-bottom: 10px;
-    }
+.menu {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
 
-    section {
-      margin-top: 50px;
-    }
+nav .menu {
+  flex-direction: column;
+  gap: 0;
+}
 
-    .menu {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
+input,
+select,
+button {
+  padding: 10px 15px;
+  font-size: 15px;
+}
 
-    nav .menu {
-      flex-direction: column;
-      gap: 0;
-    }
-
-    input, select, button {
-      padding: 10px 15px;
-      font-size: 15px;
-    }
-
-    pre {
-      background: lightgrey;
-      padding: 15px;
-      border-radius: 5px;
-      overflow-x: auto;
-    }
+pre {
+  background: lightgrey;
+  padding: 15px;
+  border-radius: 5px;
+  overflow-x: auto;
+}
