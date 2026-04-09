@@ -5,7 +5,7 @@ import express from "express";
 // Import REST implementation
 import wikiRestRouter from "./rest/wikiRest.js";
 // Import GraphQL implementation
-import testTableGraphqlHandler from "./graphql/testTableGraph.js";
+import wikiGraphqlHandler from "./graphql/wikiGraphQL.js";
 
 // Create express app
 const app = express();
@@ -17,7 +17,7 @@ app.use(express.static("public"));
 // use REST router
 app.use("/rest", wikiRestRouter);
 // use GraphQL handler
-app.all("/graphql", testTableGraphqlHandler);
+app.all("/graphql", wikiGraphqlHandler);
 
 // Starts the server and listen to the port
 app.listen(port, () => {
