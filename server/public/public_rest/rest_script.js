@@ -80,8 +80,51 @@ async function fetchCategoryPages(categoryId) {
   }
 }
 
+// GET A PAGE AND ITS CATEGORY
+// THEN GET ALL PAGES FOR THAT CATEGORY
+// THEN GET ALL CATEGORIES FOR THOSE PAGES
+async function fetchDeepPageTraversal(pageId) {
+  try {
+    const totalStart = performance.now();
+
+    const page = await fetchRestData(`/rest/pages/${pageId}`);
+    const categories = await fetchRestData(`/rest/pages/${pageId}/categories`);
+
+    const categoriesWithPages = [];
+
+    for (const category of categories) {
+      const pages = await fetchRestData(`/rest/categories/${category.cat_id}/pages`);
+      const pagesWithCategories = [];
+
+      for (const relatedPage of pages) {
+        const relatedPageCategories = await fetchRestData(
+          `/rest/pages/${relatedPage.page_id}/categories`
+        );
+
+        pagesWithCategories.push({
+          page_id: relatedPage.page_id,
+          page_namespace: relatedPage.page_namespace,
+          page_title: relatedPage.page_title,
+          page_is_redirect: relatedPage.page_is_redirect,
+          categories: relatedPageCategories
+        });
+      }
+
+      categoriesWithPages.push({
+        cat_id: category.cat_id,
+        cat_title: category.cat_title,
+        pages: pagesWithCategories
+      });
     }
 
+    const result = {
+      page: page,
+      categories: categoriesWithPages
+    };
+
+    const totalEnd = performance.now();
+    showTiming(totalEnd - totalStart);
+    showResult(result);
   } catch (error) {
     showError(error.message);
   }
@@ -132,3 +175,13 @@ document.getElementById("getCategoryPagesBtn").addEventListener("click", () => {
   fetchCategoryPages(categoryId);
 });
 
+document.getElementById("getDeepTraversalBtn").addEventListener("click", () => {
+  const pageId = document.getElementById("deepPageIdInput").value.trim();
+
+  if (!pageId) {
+    showError("Please enter a page id.");
+    return;
+  }
+
+  fetchDeepPageTraversal(pageId);
+});
