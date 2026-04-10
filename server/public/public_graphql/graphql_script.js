@@ -1,8 +1,5 @@
-const apiTypeSelect = document.getElementById("apiType");
-const getAllBtn = document.getElementById("getAllBtn");
-const getOneBtn = document.getElementById("getOneBtn");
-const rowIdInput = document.getElementById("rowId");
 const output = document.getElementById("output");
+const timingOutput = document.getElementById("timing");
 
 // Function that displays the data in html element
 function showResult(data) {
@@ -14,90 +11,78 @@ function showError(error) {
   output.textContent = "Error:\n" + error;
 }
 
-// Function that fetches all rows from the chosen API
-async function fetchAll() {
+function showTiming(ms) {
+  timingOutput.textContent = `Request time: ${ms.toFixed(2)} ms`;
+}
+
+async function fetchGraphQLData(query, variables = {}) {
+  const response = await fetch("/graphql", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ query, variables }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}`);
+  }
+
+  const result = await response.json();
+
+  if (result.errors && result.errors.length > 0) {
+    throw new Error(result.errors.map((error) => error.message).join("\n"));
+  }
+
+  return result.data;
+}
+
+// GET ONE PAGE
+async function fetchPageById(pageId) {
   try {
-    // Variable to hold the response
-    let responseData;
+    const start = performance.now();
 
-    // Else if GraphQL, send a POST request to /graphql
-    const response = await fetch("/graphql", {
-      method: "POST",
-      // The requests content is JSON
-      headers: {
-        "Content-Type": "application/json",
-      },
-      // Sending the GraphQL-query in the request body
-      body: JSON.stringify({
-        query: `
-        query {
-            testTable {
-            id
-            name
-            }
+    const data = await fetchGraphQLData(
+      `
+      query GetPage($id: ID!) {
+        page(id: $id) {
+          page_id
+          page_namespace
+          page_title
+          page_is_redirect
         }
-        `,
-      }),
-    });
-    if (!response.ok) {
-      throw new Error(`GraphQL-fetch failed: ${response.status}`);
-    } else {
-      const result = await response.json();
-      responseData = result.data;
-    }
+      }
+      `,
+      { id: pageId },
+    );
 
-    showResult(responseData);
+    const end = performance.now();
+    showTiming(end - start);
+    showResult(data.page);
   } catch (error) {
     showError(error.message);
   }
 }
 
-// Function that fetches one row based on id
-async function fetchOne() {
-  // Get inserted id
-  const id = rowIdInput.value;
 
-  // Show error if the user did not enter an id
-  if (!id) {
-    showError("Enter ID.");
+  }
+
+  try {
+              }
+  } catch (error) {
+    showError(error.message);
+  }
+}
+
+// GET HTML ELEMENTS AND APPLY EVENTLISTENERS
+document.getElementById("getPageBtn").addEventListener("click", () => {
+  const pageId = document.getElementById("pageIdInput").value.trim();
+
+  if (!pageId) {
+    showError("Please enter a page id.");
     return;
   }
 
-  try {
-    let responseData;
+  fetchPageById(pageId);
+});
 
-    const response = await fetch("/graphql", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query: `
-              query GetTestRow($id: ID!) {
-              testRow(id: $id) {
-                  id
-                  name
-              }
-              }
-          `,
-        variables: {
-          id: id,
-        },
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error(`GraphQL-fetch failed: ${response.status}`);
-    } else {
-      const result = await response.json();
-      responseData = result.data;
-    }
-
-    showResult(responseData);
-  } catch (error) {
-    showError(error.message);
-  }
-}
-
-getAllBtn.addEventListener("click", fetchAll);
-getOneBtn.addEventListener("click", fetchOne);
