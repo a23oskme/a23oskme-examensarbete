@@ -89,8 +89,65 @@ async function fetchCategoryById(categoryId) {
   }
 }
 
+// GET CATEGORIES FOR A PAGE
+async function fetchPageCategories(pageId) {
+  try {
+    const start = performance.now();
 
+    const data = await fetchGraphQLData(
+      `
+      query GetPageCategories($id: ID!) {
+        page(id: $id) {
+          page_id
+          page_title
+          categories {
+            cat_id
+            cat_title
+          }
+        }
+      }
+      `,
+      { id: pageId },
+    );
+
+    const end = performance.now();
+    showTiming(end - start);
+    showResult(data.page ? data.page.categories : null);
+  } catch (error) {
+    showError(error.message);
   }
+}
+
+// GET PAGES FOR ONE CATEGORY
+async function fetchCategoryPages(categoryId) {
+  try {
+    const start = performance.now();
+
+    const data = await fetchGraphQLData(
+      `
+      query GetCategoryPages($id: ID!) {
+        category(id: $id) {
+          cat_id
+          cat_title
+          pages {
+            page_id
+            page_namespace
+            page_title
+            page_is_redirect
+          }
+        }
+      }
+      `,
+      { id: categoryId },
+    );
+
+    const end = performance.now();
+    showTiming(end - start);
+    showResult(data.category ? data.category.pages : null);
+  } catch (error) {
+    showError(error.message);
+  }
+}
 
   try {
               }
@@ -120,5 +177,27 @@ document.getElementById("getCategoryBtn").addEventListener("click", () => {
   }
 
   fetchCategoryById(categoryId);
+});
+
+document.getElementById("getPageCategoriesBtn").addEventListener("click", () => {
+  const pageId = document.getElementById("pageCategoriesInput").value.trim();
+
+  if (!pageId) {
+    showError("Please enter a page id.");
+    return;
+  }
+
+  fetchPageCategories(pageId);
+});
+
+document.getElementById("getCategoryPagesBtn").addEventListener("click", () => {
+  const categoryId = document.getElementById("categoryPagesIdInput").value.trim();
+
+  if (!categoryId) {
+    showError("Please enter a category id.");
+    return;
+  }
+
+  fetchCategoryPages(categoryId);
 });
 
