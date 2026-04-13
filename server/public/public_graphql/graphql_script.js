@@ -149,8 +149,44 @@ async function fetchCategoryPages(categoryId) {
   }
 }
 
+// GET A PAGE AND ITS CATEGORY
+// THEN GET ALL PAGES FOR THAT CATEGORY
+// THEN GET ALL CATEGORIES FOR THOSE PAGES
+async function fetchDeepPageTraversal(pageId) {
   try {
+    const start = performance.now();
+
+    const data = await fetchGraphQLData(
+      `
+      query GetDeepTraversal($id: ID!) {
+        page(id: $id) {
+          page_id
+          page_namespace
+          page_title
+          page_is_redirect
+          categories {
+            cat_id
+            cat_title
+            pages {
+              page_id
+              page_namespace
+              page_title
+              page_is_redirect
+              categories {
+                cat_id
+                cat_title
               }
+            }
+          }
+        }
+      }
+      `,
+      { id: pageId },
+    );
+
+    const end = performance.now();
+    showTiming(end - start);
+    showResult(data.page);
   } catch (error) {
     showError(error.message);
   }
@@ -201,3 +237,13 @@ document.getElementById("getCategoryPagesBtn").addEventListener("click", () => {
   fetchCategoryPages(categoryId);
 });
 
+document.getElementById("getDeepTraversalBtn").addEventListener("click", () => {
+  const pageId = document.getElementById("deepPageIdInput").value.trim();
+
+  if (!pageId) {
+    showError("Please enter a page id.");
+    return;
+  }
+
+  fetchDeepPageTraversal(pageId);
+});
